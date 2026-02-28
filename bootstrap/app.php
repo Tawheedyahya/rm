@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\JwtAuthMiddleware;
+use App\Http\Middleware\Rolemiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'jwt.token'=>JwtAuthMiddleware::class,
+            'role'=>Rolemiddleware::class
         ]);
         $middleware->api([
             SubstituteBindings::class

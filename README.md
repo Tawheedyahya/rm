@@ -1,59 +1,211 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🍽️ Restaurant Management System – Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A RESTful backend API built using Laravel for restaurant management authentication and user handling.
 
-## About Laravel
+This project currently focuses on secure authentication using JWT with refresh token rotation and Redis-based token revocation.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+🚀 Tech Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Framework: Laravel
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Language: PHP
 
-## Learning Laravel
+Authentication: JWT (Access + Refresh Token)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Cache: Redis
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Database: MySQL
 
-## Laravel Sponsors
+Performance Engine: Laravel Octane
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+API Documentation: Swagger / OpenAPI
 
-### Premium Partners
+📌 Current Features
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+ User Registration
 
-## Contributing
+ Secure Login
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+ JWT Access Token
 
-## Code of Conduct
+ JWT Refresh Token
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+ Refresh Token Rotation
 
-## Security Vulnerabilities
+ Refresh Token Revocation (Redis-based)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+ Secure Logout
 
-## License
+ Bearer Token Authentication
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ Service Layer Architecture
+
+ DTO Pattern Implementation
+
+🔐 Authentication Flow
+
+User registers via /api/register
+
+User logs in via /api/login
+
+System returns:
+
+access_token
+
+refresh_token
+
+Access token is used for protected API requests.
+
+Refresh token is used to generate a new access token.
+
+On logout:
+
+Access token is invalidated
+
+Refresh token is removed from Redis
+
+🔑 API Endpoints
+Method	Endpoint	Description
+POST	/api/register	Register new user
+POST	/api/login	Login and receive tokens
+POST	/api/refresh	Refresh access token
+POST	/api/logout	Logout and revoke tokens
+🔐 Example Authorization Header
+Authorization: Bearer {access_token}
+🧠 Security Implementation
+
+Password hashing using bcrypt
+
+Access & Refresh token separation
+
+Refresh token rotation
+
+Refresh token storage in Redis
+
+Token revocation on logout
+
+Bearer token middleware protection
+
+Stateless JWT authentication
+
+🏗️ Architecture Overview
+
+The project follows a clean backend architecture:
+
+Controllers → Handle HTTP requests
+
+Service Layer → Business logic
+
+DTOs → Structured data transfer
+
+Middleware → JWT authentication
+
+Redis → Refresh token validation
+
+MySQL → Persistent storage
+
+🛠️ Installation Guide
+1️⃣ Clone Repository
+git clone https://github.com/your-username/restaurant-management.git
+cd restaurant-management
+2️⃣ Install Dependencies
+composer install
+3️⃣ Configure Environment
+
+Copy environment file:
+
+cp .env.example .env
+
+Update .env file:
+
+APP_NAME=RestaurantAPI
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=restaurant_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+CACHE_DRIVER=redis
+QUEUE_CONNECTION=sync
+
+JWT_SECRET=
+
+Generate application key:
+
+php artisan key:generate
+
+Generate JWT secret:
+
+php artisan jwt:secret
+4️⃣ Run Database Migrations
+php artisan migrate
+5️⃣ Start Server with Octane
+php artisan octane:start
+📂 Project Structure
+app/
+ ├── DTOs/
+ ├── Services/
+ ├── Models/
+ ├── Http/
+ │   ├── Controllers/
+ │   ├── Middleware/
+routes/
+config/
+database/
+📊 Example Login Response
+{
+  "success": true,
+  "status": 200,
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+📈 Performance Optimization
+
+High concurrency support using Laravel Octane
+
+Stateless authentication system
+
+Redis-backed refresh token validation
+
+Optimized database queries
+
+📌 Future Roadmap
+
+ Role-Based Access Control (RBAC)
+
+ Restaurant Management Module
+
+ Order Management
+
+ Billing & Invoice System
+
+ Docker Integration
+
+ CI/CD Pipeline
+
+ Production Deployment on AWS
+
+👨‍💻 Author
+
+Yahi
+Backend Developer | Laravel API Engineer
+
+If you want next version I can give:
+
+🔥 GitHub portfolio optimized version
+
+🔥 Enterprise production-level README
+
+🔥 Add architecture diagram section
+
+🔥 Add Docker + AWS deployment section
+
+Tell me which level you want next.

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authcontroller;
+use App\Http\Controllers\Superadmincontroller;
 use Illuminate\Support\Facades\Route;
 
 
@@ -16,4 +17,7 @@ Route::post('/token/refresh', [Authcontroller::class, 'refresh']);
 Route::middleware(['jwt.token'])->group(function () {
     Route::get('/profile', [Authcontroller::class, 'profile']);
     Route::post('/logout', [Authcontroller::class, 'logout']);
+});
+Route::middleware(['jwt.token','role:super_admin,hospital'])->prefix('super_admin')->name('super_admin.')->group(function(){
+    Route::get('/dashboard',[Superadmincontroller::class,'dashbaord']);
 });

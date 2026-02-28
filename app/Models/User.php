@@ -66,7 +66,9 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [
+            'role'=>$this->role?->name
+        ];
     }
     public static function exists_email(string $email)
     {
@@ -79,5 +81,8 @@ class User extends Authenticatable implements JWTSubject
             ];
         }
         return $user;
+    }
+    public function role(){
+        return $this->belongsTo(Role::class,'role_id','id');
     }
 }
