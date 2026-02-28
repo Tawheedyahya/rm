@@ -4,9 +4,18 @@ namespace App\Services;
 
 use App\DTOs\LoginDTO;
 use App\DTOs\RegisterDTO;
+use App\DTOs\ResetDTO;
+use App\Mail\Resetpasswordmail;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Laravel\Octane\Facades\Octane;
+
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class Authservice
@@ -192,5 +201,75 @@ class Authservice
         }catch(\Throwable $e){
 
         }
+    }
+    public function password_change(string $email)
+    {
+        $user=User::where('email',$email)->first();
+        if(!$user){
+            return $this->error('User not found',404);
+        }
+        $token=Str::random(60);
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email'=>$email],
+            [
+                'token'=>Hash::make($token),
+                // 'token'=>$token,
+                'created_at'=>Carbon::now()
+            ]
+        );
+        $url=config('app.request_url').'/reset_password?token='.$token.'&email='.$email;
+        Mail::to($email)->queue(new Resetpasswordmail($url));
+        return [
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Password resent link send to email',
+            'token'=>$token,
+        ];
+    }
+    protected function error(string $message,int $status){
+        return [
+            'message'=>$message,
+            'status'=>$status,
+            'success'=>false
+        ];
+    }
+
+    public function reset_password(ResetDTO $dto): array
+    {
+        [$record, $user] = Octane::concurrently([
+            fn () => DB::table('password_reset_tokens')
+                ->where('email', $dto->email)
+                ->first(),
+
+            fn () => User::where('email', $dto->email)->first(),
+        ]);
+
+        if (!$record) {
+            return $this->error('User not found', 404);
+        }
+
+        if (!Hash::check($dto->token,$record->token)) {
+            return $this->error('Token is invalid', 401);
+        }
+
+        if (!$user) {
+            return $this->error('User not found', 404);
+        }
+
+        // Update password safely
+        $user->update([
+            'password' => Hash::make($dto->password)
+        ]);
+
+        // Delete used token (important!)
+        DB::table('password_reset_tokens')
+            ->where('email', $dto->email)
+            ->delete();
+
+        return [
+            'message' => 'Password reset successfully',
+            'status'  => 200,
+            'success' => true
+        ];
     }
 }

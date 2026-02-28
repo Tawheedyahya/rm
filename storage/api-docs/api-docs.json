@@ -211,6 +211,87 @@
                     }
                 ]
             }
+        },
+        "/password_change": {
+            "post": {
+                "tags": [
+                    "AUTH"
+                ],
+                "summary": "password resend link",
+                "operationId": "e01ea3671eac0be18f60720cb7cf8758",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "404": {
+                        "description": "email not found"
+                    },
+                    "200": {
+                        "description": "email send successfully"
+                    }
+                }
+            }
+        },
+        "/reset_password": {
+            "post": {
+                "tags": [
+                    "AUTH"
+                ],
+                "summary": "PASSWORD RESET",
+                "operationId": "efb4bd6f79fac2b0bb0e7254ee5ed0f3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "token",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "password reset successfully"
+                    }
+                }
+            }
         }
     },
     "components": {

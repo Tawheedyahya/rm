@@ -120,6 +120,47 @@ class AuthSwg
             new OA\Response(response:401,description:"Unauthorize")
         ]
     )]
+    // PASSWORD SEND LINK
+    #[OA\Post(
+        path:'/password_change',
+        summary:'password resend link',
+        tags:["AUTH"],
+        requestBody:new OA\RequestBody(
+            required:true,
+            content:new OA\JsonContent(
+                required:['email'],
+                properties:[
+                    new OA\Property(property:"email",type:"string",format:"email")
+                ]
+            )
+        ),
+        responses:[
+            new OA\Response(response:404,description:"email not found"),
+            new OA\Response(response:200,description:"email send successfully")
+        ]
+    )]
+    // PASSWORD CHANGE
+    #[OA\Post(
+        tags:["AUTH"],
+        path:'/reset_password',
+        summary:"PASSWORD RESET",
+        requestBody:new OA\RequestBody(
+            required:true,
+            content:new OA\JsonContent(
+                required:["email","token","password","password_confirmation"],
+                properties:[
+                    new OA\Property(property:"email",type:"string",format:"email"),
+                    new OA\Property(property:"token",type:"string"),
+                    new OA\Property(property:"password",type:"string"),
+                    new OA\Property(property:"password_confirmation",type:"string")
+                ]
+            )
+        ),
+        responses:[
+            new OA\Response(response:200,description:"password reset successfully")
+        ]
+
+    )]
 
     public function auth(){}
 }
