@@ -20,4 +20,6 @@ Route::middleware(['jwt.token'])->group(function () {
 });
 Route::middleware(['jwt.token','role:super_admin,hospital'])->prefix('super_admin')->name('super_admin.')->group(function(){
     Route::get('/dashboard',[Superadmincontroller::class,'dashbaord']);
+    Route::post('/create_hotel',[Superadmincontroller::class,'create_hotel']);
+    Route::post('/update_hotel/{id}',[Superadmincontroller::class,'create_hotel']);
 });
