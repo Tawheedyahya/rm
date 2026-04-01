@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class Registerrequest extends FormRequest
 {
@@ -23,12 +24,17 @@ class Registerrequest extends FormRequest
      */
     public function rules(): array
     {
-        $id=$this->route('id');
-        return [
-            'name'=>'required|string|max:255',
-            'email'=>'required|email|unique:users,email,'.$id,
-            "password"=>'required|min:8|confirmed'
-        ];
+            $id = $this->route('id'); // null if not provided
+
+    return [
+        'name' => 'required|string|max:255',
+        'email' => [
+            'required',
+            'email',
+            Rule::unique('users', 'email')->ignore($id), // safe for null
+        ],
+        'password' => 'required|min:8|confirmed',
+    ];
     }
         public function messages(): array
     {

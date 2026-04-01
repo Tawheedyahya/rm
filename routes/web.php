@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Practisecontroller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -15,3 +16,4 @@ Route::get('/set', function() {
 Route::get('/get', function() {
     return Cache::store('redis')->get('name', 'not found');
 });
+Route::get('/practise',[Practisecontroller::class,'index']);
