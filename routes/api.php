@@ -18,8 +18,8 @@ Route::middleware(['jwt.token'])->group(function () {
     Route::get('/profile', [Authcontroller::class, 'profile']);
     Route::post('/logout', [Authcontroller::class, 'logout']);
 });
-Route::middleware(['jwt.token','role:super_admin,hospital'])->prefix('super_admin')->name('super_admin.')->group(function(){
-    Route::get('/dashboard',[Superadmincontroller::class,'dashbaord']);
+Route::middleware(['jwt.token','role:super_admin'])->prefix('super_admin')->name('super_admin.')->group(function(){
+    Route::get('/index',[Superadmincontroller::class,'index']);
     Route::post('/create_hotel',[Superadmincontroller::class,'create_hotel']);
-    Route::post('/update_hotel/{id}',[Superadmincontroller::class,'create_hotel']);
+    Route::put('/update_hotel/{id}',[Superadmincontroller::class,'create_hotel']);
 });

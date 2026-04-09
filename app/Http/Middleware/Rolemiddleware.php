@@ -22,6 +22,12 @@ class Rolemiddleware
                 'message'=>'Unathorized error'
             ],401);
         }
+        if(!$user->role?->name || $user->role?->name==null){
+            return response()->json([
+                'success'=>false,
+                'message'=>'You are not a authorized user'
+            ],403);
+        }
         if(!in_array($user->role->name,$roles)){
             return response()->json([
                 'success'=>false,

@@ -292,6 +292,167 @@
                     }
                 }
             }
+        },
+        "/super_admin/create_hotel": {
+            "post": {
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Create hotel",
+                "operationId": "73b4f4c80433d56e12bfc01518cc54ae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "phone",
+                                    "address",
+                                    "city",
+                                    "state",
+                                    "country",
+                                    "postal_code"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "hotel_tag"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "tawheedyahya0@gmail.com"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Main Road"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Chennai"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Tamil Nadu"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "India"
+                                    },
+                                    "postal_code": {
+                                        "type": "string",
+                                        "example": "600001"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "hotel created successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/super_admin/update_hotel/{id}": {
+            "put": {
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Update hotel",
+                "operationId": "e65ddb2f2f08dd7848a9f778e1c445f7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "phone",
+                                    "address",
+                                    "city",
+                                    "state",
+                                    "country",
+                                    "postal_code"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Hotel Taj"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "test@gmail.com"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "9876543210"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Main Road"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Chennai"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "example": "Tamil Nadu"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "India"
+                                    },
+                                    "postal_code": {
+                                        "type": "string",
+                                        "example": "600001"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Hotel updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -308,6 +469,10 @@
         {
             "name": "AUTH",
             "description": "AUTH"
+        },
+        {
+            "name": "Hotel",
+            "description": "Hotel"
         }
     ]
 }

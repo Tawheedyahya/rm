@@ -43,7 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json([
                     'success'=>false,
                     'message'=>'Too many attempts'
-                ]);
+                ],429);
             }
-        },429);
+        });
     })->create();

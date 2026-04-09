@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class Createhotelrequest extends FormRequest
 {
@@ -18,9 +21,15 @@ class Createhotelrequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
 
-            'email' => 'required|email|unique:hotels,email,' . $id,
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('hotels')->ignore($id)
+            ],
 
-            'phone' => 'required|unique:hotels,phone,' . $id,
+            'phone' => [
+                'required','string',Rule::unique('hotels')->ignore($id)
+            ],
 
             'address' => 'required|string|max:500',
 
@@ -56,5 +65,15 @@ class Createhotelrequest extends FormRequest
 
             'postal_code.required' => 'Postal code is required.',
         ];
+    }
+        protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'status'  => false,
+                'message' => 'Validation failed.',
+                'errors'  => $validator->errors(),
+            ], 422)
+        );
     }
 }
