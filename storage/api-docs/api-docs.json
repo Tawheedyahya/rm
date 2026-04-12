@@ -453,6 +453,93 @@
                     }
                 ]
             }
+        },
+        "/super_admin/hotel_lists": {
+            "get": {
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Hotel lists",
+                "operationId": "bcda14d1e685a3d0493ef6c1815754bf",
+                "responses": {
+                    "200": {
+                        "description": "Hotel lists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "city": {
+                                                        "type": "string"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/super_admin/hotel/{id}": {
+            "get": {
+                "tags": [
+                    "Hotel"
+                ],
+                "summary": "Show hotel",
+                "operationId": "2d514f7246aaa639f77941c831c40fe1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "hotel retrieved successfully"
+                    },
+                    "400": {
+                        "description": "hotel not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {

@@ -75,4 +75,63 @@ class HotelSwg{
         ]
     )]
     public function updateHotel() {}
+    #[OA\Get(
+        path: '/super_admin/hotel_lists',
+        summary: 'Hotel lists',
+        tags: ['Hotel'],
+        security: [['bearerAuth' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Hotel lists',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(
+                                type: 'object',
+                                properties: [
+                                    new OA\Property(property: 'id', type: 'integer'),
+                                    new OA\Property(property: 'name', type: 'string'),
+                                    new OA\Property(property: 'city', type: 'string'),
+                                    new OA\Property(property: 'phone', type: 'string'),
+                                ]
+                            )
+                        ),
+                        new OA\Property(property: 'current_page', type: 'integer'),
+                        new OA\Property(property: 'last_page', type: 'integer'),
+                    ]
+                )
+            )
+        ]
+    )]
+    public function index(){}
+    #[OA\Get(
+        path:"/super_admin/hotel/{id}",
+        summary:"Show hotel",
+        tags:["Hotel"],
+        security:[["bearerAuth"=>[]]],
+        parameters:[
+            new OA\Parameter(
+                name:"id",
+                in:"path",
+                required:true,
+                schema:new OA\Schema(type:"integer"),
+                example:1
+            )
+        ],
+        responses:[
+            new OA\Response(
+                response:200,
+                description:"hotel retrieved successfully"
+            ),
+            new OA\Response(
+                response:400,
+                description:"hotel not found"
+            )
+        ]
+    )]
+    public function hotel_show(){}
 }

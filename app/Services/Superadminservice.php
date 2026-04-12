@@ -3,15 +3,17 @@ namespace App\Services;
 
 use App\DTOs\Superadmin\CreatehotelDTO;
 use App\Models\Hotel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
 
 class Superadminservice{
         public function create_hotel(CreateHotelDTO $dto): array
     {
         $hotel = Hotel::create($dto->toArray());
-        Cache::tags('hotels')->flush();
+        Cache::tags(['hotels'])->flush();
         return [
-            'status' => true,
+            'status'=>200,
+            'success' => true,
             'message' => 'Hotel created successfully',
             'data' => $hotel
         ];
@@ -21,12 +23,38 @@ class Superadminservice{
         $hotel = Hotel::findOrFail($id);
 
         $hotel->update($dto->toArray());
-        Cache::tags('hotels')->flush();
+        Cache::tags(['hotels'])->flush();
+        Cache::tags(['hotels'])->forget("show_hotel.$id");
         return [
-            'status' => true,
+            'status'=>200,
+            'success' => true,
             'message' => 'Hotel updated successfully',
             'data' => $hotel
         ];
+    }
+    public function get_hotel($id): array
+    {
+    try {
+        $hotel = Cache::tags(['hotels'])->remember("show_hotel.$id",7600,function () use($id){
+            return Hotel::select(
+                'id','name','phone','email','address',
+                'city','state','country','postal_code'
+            )->findOrFail($id);
+        });
+        return [
+            'success' => true,
+            'message' => 'Hotel fetched successfully',
+            'data' => $hotel,
+            'status' => 200
+        ];
+    } catch (ModelNotFoundException $e) {
+        return [
+            'success' => false,
+            'message' => 'Hotel not found',
+            'data' => null,
+            'status' => 404
+        ];
+    }
     }
 }
 ?>
