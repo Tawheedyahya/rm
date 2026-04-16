@@ -199,7 +199,11 @@ class Authservice
                 JWTAuth::setToken($access_token)->invalidate(true);
             }
         }catch(\Throwable $e){
-
+            return [
+                'success' => false,
+                'status'  => 500,
+                'message' => $e->getMessage()
+            ];
         }
     }
     public function password_change(string $email)

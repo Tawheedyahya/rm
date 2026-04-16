@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Authcontroller;
+use App\Http\Controllers\QueueController;
 use App\Http\Controllers\Superadmincontroller;
+use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,4 +25,10 @@ Route::middleware(['jwt.token','role:super_admin'])->prefix('super_admin')->name
     Route::post('/create_hotel',[Superadmincontroller::class,'create_hotel']);
     Route::put('/update_hotel/{id}',[Superadmincontroller::class,'create_hotel']);
     Route::get('/hotel/{id}',[Superadmincontroller::class,'show_hotel']);
+});
+Route::middleware(['jwt.token','role:hotel_admin,waiter'])->prefix('table')->name('table.')->group(function(){
+    Route::post('/create_table',[TableController::class,'store']);
+});
+Route::middleware(['jwt.token','role:hotel_admin'])->prefix('staff')->name('staff.')->group(function(){
+    Route::post('/create_staff');
 });
