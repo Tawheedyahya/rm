@@ -155,7 +155,7 @@ class Authservice
             return [
                 'success' => false,
                 'status'  => 401,
-                'message' => 'Invalid or expired refresh token',
+                "message"=> "Refresh token revoked",
             ];
         }
     }

@@ -30,5 +30,5 @@ Route::middleware(['jwt.token','role:hotel_admin,waiter'])->prefix('table')->nam
     Route::post('/create_table',[TableController::class,'store']);
 });
 Route::middleware(['jwt.token','role:hotel_admin'])->prefix('staff')->name('staff.')->group(function(){
-    Route::post('/create_staff');
+    Route::post('/create_staff');   
 });
