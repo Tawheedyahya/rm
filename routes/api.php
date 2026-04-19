@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Authcontroller;
 use App\Http\Controllers\QueueController;
+use App\Http\Controllers\Staffcontroller;
 use App\Http\Controllers\Superadmincontroller;
 use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Route;
@@ -30,5 +31,5 @@ Route::middleware(['jwt.token','role:hotel_admin,waiter'])->prefix('table')->nam
     Route::post('/create_table',[TableController::class,'store']);
 });
 Route::middleware(['jwt.token','role:hotel_admin'])->prefix('staff')->name('staff.')->group(function(){
-    Route::post('/create_staff');   
+    Route::post('/create_staff',[Staffcontroller::class,'store']);   
 });

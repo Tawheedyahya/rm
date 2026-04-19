@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\Hoteladmin\RegisterDTO;
+use App\Http\Requests\Staffrequest;
+use App\Services\Staffservice;
 use Illuminate\Http\Request;
+use Throwable;
 
 class Staffcontroller extends Controller
 {
+    protected $staffservice;
+    public function __construct(Staffservice $staffservice)
+    {
+        $this->staffservice=$staffservice;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -17,10 +26,18 @@ class Staffcontroller extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Staffrequest $request)
     {
-        //
-        
+        try{
+            $data=$this->staffservice->store(RegisterDTO::fromrequest($request));
+            $status=fstatus($data);
+            return response()->json($data,$status);
+        }catch(Throwable $e){
+            return response()->json([
+                'success'=>false,
+                'messae'=>$e->getMessage()
+            ],500);
+        }    
     }
 
     /**

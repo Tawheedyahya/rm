@@ -3,13 +3,22 @@ namespace App\Services;
 
 use App\DTOs\Superadmin\CreatehotelDTO;
 use App\Models\Hotel;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 
 class Superadminservice{
         public function create_hotel(CreateHotelDTO $dto): array
     {
         $hotel = Hotel::create($dto->toArray());
+        User::create([
+            'name'=>$dto->name,
+            'email'=>$dto->email,
+            'password'=>Hash::make('password123'),
+            'role_id'=>2,
+            'hotel_id'=>$hotel->id
+        ]);
         Cache::tags(['hotels'])->flush();
         return [
             'status'=>200,

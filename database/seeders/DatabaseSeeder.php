@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
         // Hotel::factory(10000)->create();
 
         User::factory()->create([
-            'name' => 'hotel_admin',
-            'email' => 'hoteladmin@gmail.com',
+            'name' => 'yahi',
+            'email' => 'y@gmail.com',
             'password'=>Hash::make('yahiyahi'),
-            'role_id'=>2,
+            'role_id'=>1,
         ]);
     }
 }
