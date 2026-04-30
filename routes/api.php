@@ -27,9 +27,12 @@ Route::middleware(['jwt.token','role:super_admin'])->prefix('super_admin')->name
     Route::put('/update_hotel/{id}',[Superadmincontroller::class,'create_hotel']);
     Route::get('/hotel/{id}',[Superadmincontroller::class,'show_hotel']);
 });
-Route::middleware(['jwt.token','role:hotel_admin,waiter'])->prefix('table')->name('table.')->group(function(){
+Route::middleware(['jwt.token','role:hotel_admin,waiter','hotel.check'])->prefix('table')->name('table.')->group(function(){
     Route::post('/create_table',[TableController::class,'store']);
+    Route::get('/table_lists',[TableController::class,'index']);
+    Route::put('/update_table/{table}',[TableController::class,'update']);
 });
-Route::middleware(['jwt.token','role:hotel_admin'])->prefix('staff')->name('staff.')->group(function(){
+Route::middleware(['jwt.token','role:hotel_admin','hotel.check'])->prefix('staff')->name('staff.')->group(function(){
     Route::post('/create_staff',[Staffcontroller::class,'store']);   
+    Route::get('/staff_lists',[Staffcontroller::class,'index']);
 });

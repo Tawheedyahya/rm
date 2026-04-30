@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Hotelcheckmiddleware;
 use App\Http\Middleware\JwtAuthMiddleware;
 use App\Http\Middleware\Rolemiddleware;
 use Illuminate\Auth\AuthenticationException;
@@ -21,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'jwt.token'=>JwtAuthMiddleware::class,
-            'role'=>Rolemiddleware::class
+            'role'=>Rolemiddleware::class,
+            'hotel.check'=>Hotelcheckmiddleware::class,
         ]);
         $middleware->api([
             SubstituteBindings::class

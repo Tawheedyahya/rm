@@ -21,6 +21,16 @@ class Staffcontroller extends Controller
     public function index()
     {
         //
+        try{
+            $data=$this->staffservice->index();
+            $status=fstatus($data);
+            return response()->json($data,$status);
+        }catch(Throwable $e){
+            return response()->json([
+                'success'=>false,
+                'messae'=>$e->getMessage()
+            ],500);
+        }
     }
 
     /**
@@ -62,5 +72,6 @@ class Staffcontroller extends Controller
     public function destroy(string $id)
     {
         //
+        
     }
 }

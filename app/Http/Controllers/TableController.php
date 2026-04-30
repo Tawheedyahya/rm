@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Tablerequest;
 use App\Models\Table;
+use App\Policies\TablePolicy;
 use App\Services\Tableservice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TableController extends Controller
 {
@@ -19,6 +21,13 @@ class TableController extends Controller
     public function index()
     {
         //
+        $tables=$this->tableservice->index();
+        if($tables['success']){
+            return response()->json($tables,$tables['status']); 
+        }
+        else{
+            return response()->json($tables,$tables['status']);
+        }
     }
 
     /**
@@ -46,9 +55,10 @@ class TableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Table $table)
-    {
-        //
+    public function update(Tablerequest $request, Table $table)
+{
+    Gate::authorize('update', $table); // throws 403 if denied
+    
     }
 
     /**

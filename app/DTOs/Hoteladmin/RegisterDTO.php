@@ -27,6 +27,7 @@ class RegisterDTO{
             'email' => $this->email,
             'password' => $this->password,
             'role_id' => $this->role_id,
+            'hotel_id' => auth('api')->user()->hotel_id,
         ];
     }
     

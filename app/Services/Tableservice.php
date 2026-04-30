@@ -5,18 +5,22 @@ use App\Models\Table;
 use Illuminate\Http\Request;
 
 class Tableservice{
+    protected $user;
+    public function __construct() {
+        $this->user = auth('api')->user();
+    }   
+    public function index(): array
+    {
+        $tables=Table::where('hotel_id',$this->user->hotel_id)->get();
+        return [
+            'success'=>true,
+            'status'=>200,
+            'data'=>$tables
+        ];
+    }
     public function store(array $data): array
     {
-        $user=auth('api')->user();
-        if(!$user||!$user->hotel_id){
-            return [
-                'success'=>false,
-                'status'=>403,
-                'message'=>'User is not assigned to hotel'
-            ];
-        }
-        // Table::create($data);
-        $data['hotel_id'] = $user->hotel_id;
+        $data['hotel_id'] = $this->user->hotel_id;
 
         Table::create($data);
         return [
