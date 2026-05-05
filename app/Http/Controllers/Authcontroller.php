@@ -29,7 +29,17 @@ class Authcontroller extends Controller
         }
 
         return response()->json($data, $data['status'])
-            ->cookie('refresh_token', $data['refresh_token'], 43200, '/', null, true, true);
+           ->cookie(
+    'refresh_token',
+    $data['refresh_token'],
+    43200,
+    '/',
+    null,
+    false,   // http → false
+    true,
+    false,
+    'Lax'    // 🔥 NOT None
+);
     }
     public function register(Registerrequest $request):JsonResponse
     {
@@ -42,14 +52,23 @@ class Authcontroller extends Controller
         }
 
         return response()->json($data, $data['status'])
-            ->cookie('refresh_token', $data['refresh_token'], 43200, null, null, true, true);
+         ->cookie(
+    'refresh_token',
+    $data['refresh_token'],
+    43200,
+    '/',
+    null,
+    false,   // http → false
+    true,
+    false,
+    'Lax'    // 🔥 NOT None
+);
     }
 
     public function refresh(Request $request): JsonResponse
     {
-        $refreshToken = $request->input('refresh_token')
-            ?? $request->header('X-Refresh-Token')
-            ?? $request->cookie('refresh_token');
+        $refreshToken =$request->cookie('refresh_token')?? $request->input('refresh_token')
+            ?? $request->header('X-Refresh-Token');
 
         if (! $refreshToken) {
             return response()->json([
@@ -66,7 +85,18 @@ class Authcontroller extends Controller
         }
 
         return response()->json($data, $data['status'])
-            ->cookie('refresh_token', $data['refresh_token'], 43200, null, null, true, true);
+            ->cookie(
+    'refresh_token',
+    $data['refresh_token'],
+    43200,
+    '/',
+    null,
+    false,   // http → false
+    true,
+    false,
+    'Lax'    // 🔥 NOT None
+);
+
     }
 
     public function profile(): JsonResponse
