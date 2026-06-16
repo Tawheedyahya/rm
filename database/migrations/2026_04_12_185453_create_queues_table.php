@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('queues', function (Blueprint $table) {
+        Schema::create('pqueues', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id')->constrained('hotels')->cascadeOnDelete();
             $table->string('customer_name',100);

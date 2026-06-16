@@ -8,7 +8,7 @@ use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::post('/login', [Authcontroller::class, 'login'])->middleware('throttle:login');
+Route::post('/login', [Authcontroller::class, 'login']);
 Route::post('/register', [Authcontroller::class, 'register']);
 Route::post('/password_change',[Authcontroller::class,'password_change']);
 Route::post('/reset_password',[Authcontroller::class,'reset_password'])->middleware('throttle:email');
@@ -23,8 +23,9 @@ Route::middleware(['jwt.token'])->group(function () {
 });
 Route::middleware(['jwt.token','role:super_admin'])->prefix('super_admin')->name('super_admin.')->group(function(){
     Route::get('/hotel_lists',[Superadmincontroller::class,'index']);
+    
     Route::post('/create_hotel',[Superadmincontroller::class,'create_hotel']);
-    Route::put('/update_hotel/{id}',[Superadmincontroller::class,'create_hotel']);
+    Route::put('/update_hotel/{id}',[Superadmincontroller::class,'update_hotel']);
     Route::get('/hotel/{id}',[Superadmincontroller::class,'show_hotel']);
 });
 Route::middleware(['jwt.token','role:hotel_admin,waiter','hotel.check'])->prefix('table')->name('table.')->group(function(){
@@ -34,5 +35,6 @@ Route::middleware(['jwt.token','role:hotel_admin,waiter','hotel.check'])->prefix
 });
 Route::middleware(['jwt.token','role:hotel_admin','hotel.check'])->prefix('staff')->name('staff.')->group(function(){
     Route::post('/create_staff',[Staffcontroller::class,'store']);   
+    Route::get('/role_lists',[Staffcontroller::class,'role_show']);
     Route::get('/staff_lists',[Staffcontroller::class,'index']);
 });

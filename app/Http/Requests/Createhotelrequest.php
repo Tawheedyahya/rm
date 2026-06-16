@@ -40,6 +40,7 @@ class Createhotelrequest extends FormRequest
             'country' => 'required|string|max:100',
 
             'postal_code' => 'required|string|max:20',
+            'status'=>$id?'required|in:0,1':'nullable|in:0,1'
             
         ];
     }

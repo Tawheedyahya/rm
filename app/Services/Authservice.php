@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Octane\Facades\Octane;
@@ -44,7 +45,7 @@ class Authservice
         // user already authenticated by attempt()
         $user = auth('api')->user();
 
-        // ✅ create REFRESH token only
+        //  create REFRESH token only
         $refreshToken = auth('api')
             ->claims(['type' => 'refresh'])
             ->setTTL(config('jwt.refresh_ttl'))
@@ -221,7 +222,10 @@ class Authservice
                 'created_at'=>Carbon::now()
             ]
         );
-        $url=config('app.request_url').'/reset_password?token='.$token.'&email='.$email;
+        $frontend_url=request()->header('Origin') ?? config('app.request_url');
+        Log::info($frontend_url);
+        $url=$frontend_url.'/reset_password?token='.$token.'&email='.$email;
+        Log::info($url);
         Mail::to($email)->queue(new Resetpasswordmail($url));
         return [
             'success'=>true,

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\DTOs\Hoteladmin\RegisterDTO;
 use App\Http\Requests\Staffrequest;
+use App\Models\Role;
 use App\Services\Staffservice;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Throwable;
-
+#[Group('STAFF')]
 class Staffcontroller extends Controller
 {
     protected $staffservice;
@@ -16,8 +18,8 @@ class Staffcontroller extends Controller
         $this->staffservice=$staffservice;
     }
     /**
-     * Display a listing of the resource.
-     */
+     * SHOW ALL STAFF BASED ON HOTEL
+     **/
     public function index()
     {
         //
@@ -28,13 +30,13 @@ class Staffcontroller extends Controller
         }catch(Throwable $e){
             return response()->json([
                 'success'=>false,
-                'messae'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ],500);
         }
     }
 
     /**
-     * Store a newly created resource in storage.
+     * CREATE A STAFF FOR HOTEL
      */
     public function store(Staffrequest $request)
     {
@@ -45,7 +47,7 @@ class Staffcontroller extends Controller
         }catch(Throwable $e){
             return response()->json([
                 'success'=>false,
-                'messae'=>$e->getMessage()
+                'message'=>$e->getMessage()
             ],500);
         }    
     }
@@ -73,5 +75,23 @@ class Staffcontroller extends Controller
     {
         //
         
+    }
+    /**
+     * ROLE SHOW
+     * 
+     */
+    public function role_show(){
+        try{
+            $roles=Role::select('id','name')->whereNotIn('name',['super_admin','hotel_admin'])->get();
+            return response()->json([
+                'success'=>true,
+                'roles'=>$roles
+            ]);
+        }catch(Throwable $e){
+            return response()->json([
+                'success'=>false,
+                'message'=>$e->getMessage()
+            ],500);
+        }
     }
 }

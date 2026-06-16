@@ -14,7 +14,8 @@ class CreatehotelDTO
         public ?string $city,
         public ?string $state,
         public ?string $country,
-        public ?string $postal_code
+        public ?string $postal_code,
+        public ?int $status
     ) {}
 
     public static function fromRequest(Request $request): self
@@ -27,7 +28,8 @@ class CreatehotelDTO
             city: $request->city,
             state: $request->state,
             country: $request->country,
-            postal_code: $request->postal_code
+            postal_code: $request->postal_code,
+            status:$request->status,
         );
     }
     public function toArray(): array
@@ -41,6 +43,7 @@ class CreatehotelDTO
             'state' => $this->state,
             'country' => $this->country,
             'postal_code' => $this->postal_code,
+            'status'=>$this->status
         ];
     }
 }

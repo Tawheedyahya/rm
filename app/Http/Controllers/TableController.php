@@ -6,9 +6,10 @@ use App\Http\Requests\Tablerequest;
 use App\Models\Table;
 use App\Policies\TablePolicy;
 use App\Services\Tableservice;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-
+#[Group('TABLE')]
 class TableController extends Controller
 {
     /**
@@ -18,6 +19,9 @@ class TableController extends Controller
     public function __construct(Tableservice $tableservice) {
         $this->tableservice=$tableservice;
     }
+    /**
+     * DISPLAY A TABLE
+     */
     public function index()
     {
         //
@@ -31,7 +35,7 @@ class TableController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * CREATE A TABLE
      */
     public function store(Tablerequest $request)
     {
@@ -53,10 +57,10 @@ class TableController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * UPDATE TABLE
      */
     public function update(Tablerequest $request, Table $table)
-{
+    {
     Gate::authorize('update', $table); // throws 403 if denied
     
     }
