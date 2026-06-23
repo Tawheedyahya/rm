@@ -163,12 +163,13 @@ class Authcontroller extends Controller
         $data=$this->authService->reset_password(ResetDTO::fromRequest($request));
         if($data['success']){
             return response()->json([
+                'success'=>$data['success'],
                 'message'=>$data['message'],  
             ],$data['status']);
         }
         return response()->json([
             'message'=>$data['message'],
-            
+            'success'=>$data['success']
         ],$data['status']);
     }
 }

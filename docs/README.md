@@ -1,4 +1,3 @@
-🍽️ Restaurant Management System – Backend API
 
 A RESTful backend API built using Laravel for restaurant management authentication and user handling.
 
