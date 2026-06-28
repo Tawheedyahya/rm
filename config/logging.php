@@ -70,6 +70,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
         ],
+        'booking' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/booking.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'replace_placeholders' => true,
+        ],
 
         'daily' => [
             'driver' => 'daily',

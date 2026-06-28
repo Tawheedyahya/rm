@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Authcontroller;
+use App\Http\Controllers\Bookingcontroller;
+use App\Http\Controllers\Pqueuecontroller;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\Staffcontroller;
 use App\Http\Controllers\Superadmincontroller;
@@ -37,4 +39,14 @@ Route::middleware(['jwt.token','role:hotel_admin','hotel.check'])->prefix('staff
     Route::post('/create_staff',[Staffcontroller::class,'store']);   
     Route::get('/role_lists',[Staffcontroller::class,'role_show']);
     Route::get('/staff_lists',[Staffcontroller::class,'index']);
+});
+Route::middleware(['jwt.token','role:hotel_admin,waiter','hotel.check'])->prefix('pqueue')->name('pqueue.')->group(function(){
+    Route::get('/queue_lists',[Pqueuecontroller::class,'index']);
+    Route::post('/create_queue',[Pqueuecontroller::class,'store']);
+});
+Route::middleware(['jwt.token','role:hotel_admin,waiter','hotel.check'])->prefix('queue')->name('queue.')->group(function(){
+    Route::post('/create_booking',[Bookingcontroller::class,'store']);  
+    Route::get('/booking_list',[Bookingcontroller::class,'index']);
+    Route::get('/booking_show/{id}',[Bookingcontroller::class,'show']);
+    Route::put('/update_booking/{id}',[Bookingcontroller::class,'update']);
 });

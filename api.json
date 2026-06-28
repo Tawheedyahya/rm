@@ -21,6 +21,9 @@
         },
         {
             "name": "STAFF"
+        },
+        {
+            "name": "BOOKING"
         }
     ],
     "security": [
@@ -276,6 +279,309 @@
                 }
             }
         },
+        "/queue/create_booking": {
+            "post": {
+                "operationId": "bookingcontroller.store",
+                "summary": "CREATE BOOKING",
+                "tags": [
+                    "BOOKING"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Createrequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Booking created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Booking"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/queue/booking_list": {
+            "get": {
+                "operationId": "bookingcontroller.index",
+                "summary": "ALL BOOKINGS",
+                "tags": [
+                    "BOOKING"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean"
+                                                },
+                                                "message": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "success",
+                                                "message"
+                                            ]
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "success": {
+                                                    "type": "boolean"
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "const": "Booking list fetched successfully."
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Booking"
+                                                    }
+                                                },
+                                                "pagination": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "success",
+                                                "message",
+                                                "data",
+                                                "pagination"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/queue/booking_show/{id}": {
+            "get": {
+                "operationId": "bookingcontroller.show",
+                "summary": "SHOW SPECIFIC BOOKING",
+                "tags": [
+                    "BOOKING"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Booking fetched successfully."
+                                        },
+                                        "data": {
+                                            "anyOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/Booking"
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "/queue/update_booking/{id}": {
+            "put": {
+                "operationId": "bookingcontroller.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "BOOKING"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Updaterequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "const": "Booking updated successfully."
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "success",
+                                        "message",
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/AuthorizationException"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
         "/staff/create_staff": {
             "post": {
                 "operationId": "staffcontroller.store",
@@ -454,7 +760,7 @@
                                         "success": {
                                             "type": "boolean"
                                         },
-                                        "hotels": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/components/schemas/Hotel"
@@ -487,7 +793,7 @@
                                     },
                                     "required": [
                                         "success",
-                                        "hotels",
+                                        "data",
                                         "current_page",
                                         "next_page_url",
                                         "prev_page_url",
@@ -809,6 +1115,93 @@
             }
         },
         "schemas": {
+            "Booking": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "hotel_id": {
+                        "type": "integer"
+                    },
+                    "table_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "pqueue_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "customer_id": {
+                        "type": "integer"
+                    },
+                    "party_size": {
+                        "type": "integer"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "booked_at": {
+                        "type": "string"
+                    },
+                    "reservation_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "seated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "cancelled_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "booking_type": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "hotel_id",
+                    "table_id",
+                    "pqueue_id",
+                    "customer_id",
+                    "party_size",
+                    "status",
+                    "booked_at",
+                    "reservation_at",
+                    "seated_at",
+                    "cancelled_at",
+                    "created_at",
+                    "updated_at",
+                    "booking_type"
+                ],
+                "title": "Booking"
+            },
             "Createhotelrequest": {
                 "type": "object",
                 "properties": {
@@ -865,6 +1258,73 @@
                     "postal_code"
                 ],
                 "title": "Createhotelrequest"
+            },
+            "Createrequest": {
+                "type": "object",
+                "properties": {
+                    "table_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "pqueue_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "pattern": "^[6-9]\\d{9}$"
+                    },
+                    "party_size": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "confirmed",
+                            "seated",
+                            "completed",
+                            "cancelled",
+                            "no_show"
+                        ]
+                    },
+                    "booking_type": {
+                        "type": "string",
+                        "enum": [
+                            "reservation",
+                            "walk_in"
+                        ]
+                    },
+                    "reservation_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "name",
+                    "email",
+                    "phone",
+                    "party_size",
+                    "status",
+                    "booking_type"
+                ],
+                "title": "Createrequest"
             },
             "Hotel": {
                 "type": "object",
@@ -1082,6 +1542,46 @@
                     "capacity"
                 ],
                 "title": "Tablerequest"
+            },
+            "Updaterequest": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "confirmed",
+                            "seated",
+                            "completed",
+                            "cancelled",
+                            "no_show"
+                        ]
+                    },
+                    "party_size": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "minimum": 1
+                    },
+                    "table_id": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "reservation_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "status"
+                ],
+                "title": "Updaterequest"
             }
         },
         "responses": {

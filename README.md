@@ -104,6 +104,7 @@ Redis → Refresh token validation
 MySQL → Persistent storage
 
 🛠️ Installation Guide
+
 1️⃣ Clone Repository
 git clone https://github.com/your-username/restaurant-management.git
 cd restaurant-management
@@ -142,10 +143,13 @@ php artisan key:generate
 Generate JWT secret:
 
 php artisan jwt:secret
+
 4️⃣ Run Database Migrations
 php artisan migrate
+
 5️⃣ Start Server with Octane
 php artisan octane:start
+
 📂 Project Structure
 app/
  ├── DTOs/
@@ -175,6 +179,8 @@ Stateless authentication system
 Redis-backed refresh token validation
 
 Optimized database queries
+
+
 
 📌 Future Roadmap
 

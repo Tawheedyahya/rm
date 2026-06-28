@@ -30,7 +30,7 @@ class Superadmincontroller extends Controller
 
         return response()->json([
             'success' => true,
-            'hotels' => $hotels->items(),
+            'data' => $hotels->items(),
             'current_page' => $hotels->currentPage(),
             'next_page_url' => $hotels->nextPageUrl(),
             'prev_page_url' => $hotels->previousPageUrl(),
@@ -71,7 +71,7 @@ class Superadmincontroller extends Controller
 
     return response()->json([
         'success' => true,
-        'hotel' => $data['data'],
+        'data' => $data['data'],
         'message' => $data['message'],
     ], $data['status']);
 }
